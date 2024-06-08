@@ -59,7 +59,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void editUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Загрузка текущего пользователя из базы данных
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Проверяем, изменился ли пароль
+        if (!user.getPassword().equals(existingUser.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            // Если пароль не изменился, используем старый пароль
+            user.setPassword(existingUser.getPassword());
+        }
+
+        // Сохранение пользователя
         userRepository.save(user);
     }
 
