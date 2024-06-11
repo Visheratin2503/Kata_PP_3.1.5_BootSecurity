@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>User Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<p th:text="'Name: ' + ${user.name}">Name</p>
-<p th:text="'Last Name: ' + ${user.lastName}">Last Name</p>
-<p th:text="'Username: ' + ${user.username}">Username</p>
-<p th:text="'Roles: ' + ${user.getRolesToString()}">Roles</p>
+<div class="container mt-5">
+    <h1 class="text-center">Page</h1>
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" th:href="@{/user}">User Info</a>
+        <a class="btn btn-secondary" th:href="@{/admin}">Admin Page</a>
+        <form th:action="@{/logout}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
 
+    <!--<p th:text="'Name: ' + ${user.name}">Name</p>-->
+    <!--<p th:text="'Last Name: ' + ${user.lastName}">Last Name</p>-->
+    <!--<p th:text="'Username: ' + ${user.username}">Username</p>-->
+    <!--<p th:text="'Roles: ' + ${user.getRolesToString()}">Roles</p>-->
 
-<br>
-<a th:href="@{/admin/}">Back to users list</a>
-<br>
-<a th:href="@{/logout}">Logout</a>
-<br>
-
+    <!--<br>-->
+    <!--<a th:href="@{/admin/}">Back to users list</a>-->
+    <!--<br>-->
+    <!--<a th:href="@{/logout}">Logout</a>-->
+    <!--<br>-->
+</div>
 </body>
 </html>
-
-
-
 <!--<a th:href="@{/admin/{id}/edit(id=${user.id})}">Edit user!</a>-->
 
 <!--<form th:method="DELETE" th:action="@{/admin/{id}(id=${user.id})}">-->
@@ -29,8 +40,6 @@
 <!--</form>-->
 <!--</body>-->
 <!--</html>-->
-
-
 
 
 <!--<body>-->

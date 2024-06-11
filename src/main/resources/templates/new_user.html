@@ -1,45 +1,74 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:Password="http://www.w3.org/1999/xhtml" lang="en">
+      xmlns:Password="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>New user</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="container mt-5">
+    <h1 class="text-center">Add New User</h1>
 
-<form th:method="POST" th:action="@{/admin}" th:object="${user}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name error</div>
-    <br/>
-    <Label for="lastName">Enter last name: </Label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" >Last Name error</div>
-    <br/>
-    <label for="username">Enter Login: </label>
-    <input type="text" th:field="*{username}" id="username"/>
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" >Username error</div>
-    <br/>
-    <label for="password">Enter Password: </label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" >You need a password!</div>
-    <br/>
-    <p>
-        <label>Roles:
-            <input type="checkbox" name="roles"
-                   th:each="role : ${allRoles}"
-                   th:text="${role.role}"
-                   th:value="${role.id}"
-                   th:field="*{roles}"
-            />
-        </label>
-    </p>
-    <input type="submit" value="Create!"/>
+    <form th:method="POST" th:action="@{/admin}" th:object="${user}" class="mt-4">
 
-</form>
-<form action="/logout" method="POST">
-    <button type="submit">Logout</button>
-</form>
+        <div class="form-group">
+            <label for="name">Enter name: </label>
+            <input type="text" class="form-control" th:field="*{name}" id="name"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+        </div>
+
+        <div class="form-group">
+            <Label for="lastName">Enter last name: </Label>
+            <input type="text" class="form-control" th:field="*{lastName}" id="lastName"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name error
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Enter Login: </label>
+            <input type="text" class="form-control" th:field="*{username}" id="username"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Enter Password: </label>
+            <input type="password"  class="form-control" th:field="*{password}" id="password"/>
+<!--            <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">You need a-->
+<!--                password!-->
+            </div>
+
+            <div class="form-group">
+                <label>Roles:</label>
+                <select multiple="multiple" class="form-control" th:field="*{roles}">
+                    <option th:each="role: ${allRoles}" th:value="${role.id}" th:text="${role.toString()}"></option>
+                </select>
+            </div>
+<!--            <br/>-->
+<!--    <p>-->
+<!--        <label>Roles:-->
+<!--            <input type="checkbox" name="roles"-->
+<!--                   th:each="role : ${allRoles}"-->
+<!--                   th:text="${role.role}"-->
+<!--                   th:value="${role.id}"-->
+<!--                   th:field="*{roles}"-->
+<!--            />-->
+<!--        </label>-->
+            <!--    </p>-->
+            <button type="submit" class="btn btn-primary">Add</button>
+            <!--    <input type="submit" value="Create!"/>-->
+
+    </form>
+</div>
+
+<!--<form action="/logout" method="POST">-->
+<!--    <button type="submit">Logout</button>-->
+<!--</form>-->
+
 </body>
 </html>

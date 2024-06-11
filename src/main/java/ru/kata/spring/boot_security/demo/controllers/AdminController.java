@@ -37,7 +37,6 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    //@PostMapping
     public String createNewUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleRepository.findAll());
