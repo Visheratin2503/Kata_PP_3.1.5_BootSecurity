@@ -21,31 +21,52 @@ public class UserController {
         this.userService = userService;
     }
 
+//    @GetMapping
+//    public String showUserPage(@PathVariable("id") Long id, Model model) {
+//        User user = userService.findById(id);
+//        model.addAttribute("user", user);
+//        return "user";
+//    }
     @GetMapping
     public String showUserPage(Principal principal, Model model) {
         model.addAttribute("user", userService.findByUsername(principal.getName()));
-        return "user";
+        return "/user";
     }
 
-    @GetMapping("/edit")
-    public String editUserInfo(Model model, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
+//    @GetMapping("/edit-info")
+//    public String editUserInfo(Model model, Principal principal) {
+//        User user = userService.findByUsername(principal.getName());
+//        model.addAttribute("user", user);
+//        return "edit_user_info";
+//    }
+
+    @GetMapping("/{id}/edit-info")
+    public String editUserInfo(@PathVariable("id") Long id, Model model) {
+        User user = userService.findById(id);
         model.addAttribute("user", user);
         return "edit_user_info";
     }
-
-    @PostMapping("/edit")
-    public String updateUserInfo(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                                 Principal principal, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
+//    @PostMapping("/edit-info")
+//    public String updateUserInfo(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+//                                 Principal principal, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("user", user);
+//            return "edit_user_info";
+//        }
+//        User existingUser = userService.findByUsername(principal.getName());
+//        user.setId(existingUser.getId());
+//        user.setPassword(existingUser.getPassword());
+//        user.setRoles(existingUser.getRoles());
+//        userService.editUser(user);
+//        return "redirect:/user";
+//    }
+    @PostMapping("/{id}/edit-info")
+    public String updateUserInfo(@PathVariable("id") Long id, @ModelAttribute("user") User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "edit_user_info";
         }
-        User existingUser = userService.findByUsername(principal.getName());
-        user.setId(existingUser.getId());
-        user.setPassword(existingUser.getPassword());
-        user.setRoles(existingUser.getRoles());
+        user.setId(id);
         userService.editUser(user);
-        return "redirect:/user";
+        return "redirect:/user/" + id;
     }
 }

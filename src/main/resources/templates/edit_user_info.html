@@ -12,8 +12,9 @@
 <div class="container mt-5">
     <h1 class="text-left">Edit My Info</h1>
 
-    <form th:method="post" th:action="@{/user/edit}" th:object="${user}" class="mt-4">
+<!--    <form th:method="post" th:action="@{/user/edit-info}" th:object="${user}" class="mt-4">-->
 
+        <form th:method="post" th:action="@{/user/{id}/edit-info(id=${user.id})}" th:object="${user}" class="mt-4">
         <div class="form-group">
             <label for="name">Name: </label>
             <input type="text" class="form-control" th:field="*{name}" id="name"/>
