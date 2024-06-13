@@ -57,17 +57,38 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+//    @Override
+//    @Transactional
+//    public void editUser(User user) {
+//        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        if (!user.getPassword().equals(existingUser.getPassword())) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        } else {
+//            user.setPassword(existingUser.getPassword());
+//        }
+//        user.setRoles(existingUser.getRoles());
+//        userRepository.save(user);
+//    }
+
     @Override
     @Transactional
     public void editUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        // Обновляем поля только если они изменились
         if (!user.getPassword().equals(existingUser.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        } else {
-            user.setPassword(existingUser.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        userRepository.save(user);
+
+        existingUser.setName(user.getName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setUsername(user.getUsername());
+
+        // Ensure roles are not overwritten unintentionally, unless you allow changing roles
+        existingUser.setRoles(user.getRoles());
+
+        userRepository.save(existingUser);
     }
 
     @Override

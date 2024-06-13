@@ -46,7 +46,8 @@ public class UserController {
         model.addAttribute("user", user);
         return "edit_user_info";
     }
-//    @PostMapping("/edit-info")
+
+//    @PostMapping("/{id}/edit-info")
 //    public String updateUserInfo(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
 //                                 Principal principal, Model model) {
 //        if (bindingResult.hasErrors()) {
@@ -60,13 +61,70 @@ public class UserController {
 //        userService.editUser(user);
 //        return "redirect:/user";
 //    }
-    @PostMapping("/{id}/edit-info")
-    public String updateUserInfo(@PathVariable("id") Long id, @ModelAttribute("user") User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
+
+//    @PostMapping("/{id}/edit-info")
+//    public String updateUserInfo(@PathVariable("id") Long id, @ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("user", user);
+//            return "edit_user_info";
+//        }
+//
+//        userService.editUser(user);
+//        return "redirect:/user";
+//    }
+
+//    @PostMapping("/{id}/edit-info")
+//    public String updateUserInfo(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Principal principal, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("user", user);
+//            return "edit_user_info";
+//        }
+//
+//        User existingUser = userService.findByUsername(principal.getName());
+//        user.setId(existingUser.getId());
+//        userService.editUser(user);
+//
+//        return "redirect:/user";
+//    }
+
+
+//    @PostMapping("/{id}/edit-info")
+//    public String updateUserInfo(@PathVariable("id") Long id, @ModelAttribute("user") User user, BindingResult result, Model model) {
+//        if (result.hasErrors()) {
+//            return "edit_user_info";
+//        }
+//        user.setId(id);
+//        userService.editUser(user);
+//        return "redirect:/user/" + id;
+//    }
+
+
+    @PatchMapping("/{id}/edit-info")
+    public String updateUserInfo(@PathVariable("id") Long id,
+                                 @ModelAttribute("user") @Valid User user,
+                                 BindingResult bindingResult,
+                                 Principal principal,
+                                 Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
             return "edit_user_info";
         }
-        user.setId(id);
+//        User existingUser = userService.findByUsername(principal.getName());
+
+        //вариант 1
+//        User existingUser = userService.findById(id);
+//        user.setId(existingUser.getId());
+//        user.setPassword(existingUser.getPassword());
+//        userService.editUser(user);
+//        return "redirect:/user";
+
+        //вариант 2
+//        user.setId(id);
+//        userService.editUser(user);
+//        return "redirect:/user";
+
+        //вариант 3
         userService.editUser(user);
-        return "redirect:/user/" + id;
+        return "redirect:/user";
     }
 }
