@@ -57,39 +57,48 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    //1 вариант
 //    @Override
 //    @Transactional
 //    public void editUser(User user) {
-//        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        if (!user.getPassword().equals(existingUser.getPassword())) {
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        } else {
-//            user.setPassword(existingUser.getPassword());
-//        }
-//        user.setRoles(existingUser.getRoles());
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        userRepository.save(user);
 //    }
 
+    //2 вариант
     @Override
     @Transactional
     public void editUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Обновляем поля только если они изменились
         if (!user.getPassword().equals(existingUser.getPassword())) {
-            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(existingUser.getPassword());
         }
-
-        existingUser.setName(user.getName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setUsername(user.getUsername());
-
-        // Ensure roles are not overwritten unintentionally, unless you allow changing roles
-        existingUser.setRoles(user.getRoles());
-
-        userRepository.save(existingUser);
+        user.setRoles(existingUser.getRoles());
+        userRepository.save(user);
     }
+
+    //3 вариант
+//    @Override
+//    @Transactional
+//    public void editUser(User user) {
+//        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        // Обновляем поля только если они изменились
+//        if (!user.getPassword().equals(existingUser.getPassword())) {
+//            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+//        }
+//
+//        existingUser.setName(user.getName());
+//        existingUser.setLastName(user.getLastName());
+//        existingUser.setUsername(user.getUsername());
+//
+//        existingUser.setRoles(user.getRoles());
+//
+//        userRepository.save(existingUser);
+//    }
 
     @Override
     public User findByUsername(String username) {

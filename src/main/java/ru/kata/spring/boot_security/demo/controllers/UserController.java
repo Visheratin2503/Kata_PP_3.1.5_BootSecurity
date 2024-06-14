@@ -125,6 +125,7 @@ public class UserController {
 
         //вариант 3
         userService.editUser(user);
-        return "redirect:/user";
+        return "/user";
+        //return "redirect:/user";
     }
 }
