@@ -32,7 +32,7 @@ public class AdminController {
 
     @GetMapping("/{id}/page")
     public String getUserById(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", userService.getUser(id)); //getUser
         return "page";
     }
 

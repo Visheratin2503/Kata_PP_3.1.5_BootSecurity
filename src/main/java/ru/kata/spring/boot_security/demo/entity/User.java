@@ -33,11 +33,9 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "username")
-    @NonNull
     @NotEmpty(message = "Username should not be empty!")
     private String username;
 
-    @NonNull
     @NotEmpty(message = "Password should not be empty!")
     private String password;
 

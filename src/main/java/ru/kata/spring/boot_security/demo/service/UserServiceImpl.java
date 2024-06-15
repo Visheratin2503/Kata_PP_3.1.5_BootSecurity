@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository,
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -57,15 +57,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    //1 вариант
-//    @Override
-//    @Transactional
-//    public void editUser(User user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        userRepository.save(user);
-//    }
-
-    //2 вариант
     @Override
     @Transactional
     public void editUser(User user) {
@@ -80,32 +71,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    //3 вариант
-//    @Override
-//    @Transactional
-//    public void editUser(User user) {
-//        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        // Обновляем поля только если они изменились
-//        if (!user.getPassword().equals(existingUser.getPassword())) {
-//            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-//        }
-//
-//        existingUser.setName(user.getName());
-//        existingUser.setLastName(user.getLastName());
-//        existingUser.setUsername(user.getUsername());
-//
-//        existingUser.setRoles(user.getRoles());
-//
-//        userRepository.save(existingUser);
-//    }
-
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional //(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
