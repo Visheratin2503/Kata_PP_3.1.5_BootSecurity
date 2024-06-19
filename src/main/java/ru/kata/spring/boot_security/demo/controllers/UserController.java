@@ -40,8 +40,6 @@ public class UserController {
     public String editUserInfo(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         model.addAttribute("allRoles", roleRepository.findAll());
-        // User user = userService.findById(id);
-        // model.addAttribute("user", user);
         return "edit_user_info";
     }
 

@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-   @Query("Select u from User u left join fetch u.roles where u.name=:username")
+   @Query("Select u from User u join fetch u.roles where u.username=:username")
    User findByUsername(@Param("username") String username);
+
+
 }
