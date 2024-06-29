@@ -1,9 +1,11 @@
 package ru.kata.spring.boot_security.demo.service;
 
 
+import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     List<User> getUsersList();
@@ -16,7 +18,11 @@ public interface UserService {
 
     void editUser(User user);
 
-    User findByUsername(String username);
+    User findByEmail(String email);
 
-    User findById(Long id);
+    Optional<Role> getRoleById(Long id);
+
+    List<Role> findAllRoles();
+
+    void setRolesToUser(User user, Long[] roles);
 }

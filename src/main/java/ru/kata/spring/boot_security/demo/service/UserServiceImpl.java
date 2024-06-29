@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,9 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -31,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsersList() {
-        return userRepository.findAll();
+        List<User> all = userRepository.findAll();
+        return all;
     }
 
     @Override
@@ -68,12 +70,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public void setRolesToUser(User user, Long[] roles) {
+        Set<Role> roleList = new HashSet<>();
+        for (Long id : roles) {
+            roleList.add(roleRepository.findById(id).orElse(null));
+        }
+        user.setRoles(roleList);
     }
 
     @Override
-    public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Role> getRoleById(Long id) {
+        return roleRepository.findById(id);
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll();
     }
 }

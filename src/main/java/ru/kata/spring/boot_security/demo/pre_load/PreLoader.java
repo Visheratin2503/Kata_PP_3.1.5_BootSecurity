@@ -28,8 +28,8 @@ public class PreLoader {
         createRolesIfNeeded();
 
         // Проверка и добавление пользователей
-        createUserIfNeeded("Vlad", "Visheratin", "Vlad", "1234", "ROLE_ADMIN");
-        createUserIfNeeded("Elena", "Sidorova", "Elena", "1111", "ROLE_USER");
+        createUserIfNeeded("Vlad", "Visheratin", 25, "vl.visheratin@gmail.com", "1234", "ROLE_ADMIN");
+        createUserIfNeeded("Elena", "Sidorova", 35,"Elena@mail.ru", "1111", "ROLE_USER");
     }
 
     private void createRolesIfNeeded() {
@@ -46,12 +46,13 @@ public class PreLoader {
         }
     }
 
-    private void createUserIfNeeded(String name, String lastName, String username, String password, String roleName) {
-        User existingUser = userService.findByUsername(username);
+    private void createUserIfNeeded(String name, String lastName, int age, String email, String password, String roleName) {
+        User existingUser = userService.findByEmail(email);
         if (existingUser == null) {
             User user = new User();
             user.setName(name);
-            user.setUsername(username);
+            user.setAge(age);
+            user.setEmail(email);
             user.setLastName(lastName);
             user.setPassword(password);
 
@@ -62,45 +63,8 @@ public class PreLoader {
 
             userService.addUser(user);
         } else {
-            System.out.println("Пользователь '" + username + "' уже существует в базе данных.");
+            System.out.println("Пользователь '" + email + "' уже существует в базе данных.");
         }
     }
 }
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//
-//        Role userRole = new Role(1L, "ROLE_USER");
-//        Role adminRole = new Role(2L, "ROLE_ADMIN");
-//        roleRepository.save(userRole);
-//        roleRepository.save(adminRole);
-//
-//        Set<Role> adminRoles = new HashSet<>();
-//        adminRoles.add(adminRole);
-//        Set<Role> userRoles = new HashSet<>();
-//        userRoles.add(userRole);
-//
-//        User existingUser = userService.findByUsername("Vlad");
-//        User user1 = new User();
-//        if (existingUser == null) {
-//            user1.setName("Vlad");
-//            user1.setLastName("Visheratin");
-//            user1.setUsername("Vlad");
-//            user1.setPassword("1234");
-//            user1.setRoles(adminRoles);
-//        } else {
-//            System.out.println("Пользователь 'Vlad' уже существует в базе данных.");
-//        }
-//
-//        User user2 = new User();
-//        user2.setName("Elena");
-//        user2.setLastName("Sidorova");
-//        user2.setUsername("elena");
-//        user2.setPassword("1111");
-//        user2.setRoles(userRoles);
-//
-//        userService.addUser(user1);
-//        userService.addUser(user2);
-//
-//    }
 

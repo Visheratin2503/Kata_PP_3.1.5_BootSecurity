@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,11 +13,15 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
+    @Setter
+    @Getter
     @Column(name = "role")
     @NonNull
     private String role;
@@ -36,22 +42,6 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     @Override
     public String toString() {
