@@ -73,6 +73,7 @@ public class User implements UserDetails {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -91,7 +92,9 @@ public class User implements UserDetails {
 
     public String getRolesToString() {
         StringBuilder sb = new StringBuilder();
-        for (Role role : roles) {sb.append(role.toString());}
+        for (Role role : roles) {
+            sb.append(role.toString());
+        }
         return sb.toString();
     }
 

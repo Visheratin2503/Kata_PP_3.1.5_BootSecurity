@@ -29,7 +29,7 @@ public class PreLoader {
 
         // Проверка и добавление пользователей
         createUserIfNeeded("Vlad", "Visheratin", 25, "vl.visheratin@gmail.com", "1234", "ROLE_ADMIN");
-        createUserIfNeeded("Elena", "Sidorova", 35,"Elena@mail.ru", "1111", "ROLE_USER");
+        createUserIfNeeded("Elena", "Sidorova", 35, "Elena@mail.ru", "1111", "ROLE_USER");
     }
 
     private void createRolesIfNeeded() {

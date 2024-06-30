@@ -64,6 +64,7 @@ public class AdminController {
         userService.addUser(user);
         return "redirect:/admin";
     }
+
     @PostMapping("/update/{id}")
     public String update(@ModelAttribute("user") User user, @RequestParam("roles_select") Long[] roleIds) {
         Set<Role> roles = new HashSet<>();
