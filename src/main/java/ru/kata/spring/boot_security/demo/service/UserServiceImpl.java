@@ -65,8 +65,11 @@ public class UserServiceImpl implements UserService {
         } else {
             user.setPassword(existingUser.getPassword());
         }
-        user.setRoles(existingUser.getRoles());
-        userRepository.save(user);
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            existingUser.setRoles(user.getRoles());
+        }
+
+        userRepository.save(existingUser);
     }
 
     @Override
