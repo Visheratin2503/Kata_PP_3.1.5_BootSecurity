@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -14,12 +14,12 @@ import java.util.Set;
 public class PreLoader {
 
     private final UserService userService;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @Autowired
-    public PreLoader(UserService userService, RoleRepository roleRepository) {
+    public PreLoader(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @PostConstruct
@@ -38,11 +38,11 @@ public class PreLoader {
     }
 
     private void createRoleIfNotExists(String roleName) {
-        Role role = roleRepository.findByRole(roleName);
+        Role role = roleService.findByName(roleName);
         if (role == null) {
             role = new Role();
             role.setRole(roleName);
-            roleRepository.save(role);
+            roleService.save(role);
         }
     }
 
@@ -56,7 +56,7 @@ public class PreLoader {
             user.setLastName(lastName);
             user.setPassword(password);
 
-            Role role = roleRepository.findByRole(roleName);
+            Role role = roleService.findByName(roleName);
             if (role != null) {
                 user.setRoles(Set.of(role));
             }

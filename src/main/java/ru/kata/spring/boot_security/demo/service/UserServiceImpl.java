@@ -29,11 +29,9 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
-
     @Override
     public List<User> getUsersList() {
-        List<User> all = userRepository.findAll();
-        return all;
+        return userRepository.findAll();
     }
 
     @Override
@@ -73,10 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void setRolesToUser(User user, Long[] roles) {
+    public void setRolesToUser(User user, Long[] roleIds) {
         Set<Role> roleList = new HashSet<>();
-        for (Long id : roles) {
-            roleList.add(roleRepository.findById(id).orElse(null));
+        for (Long id : roleIds) {
+            Role role = roleRepository.findById(id).orElse(null);
+            if (role != null) {
+                roleList.add(role);
+            }
         }
         user.setRoles(roleList);
     }
