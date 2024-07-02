@@ -5,16 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Slf4j
@@ -47,38 +44,21 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("user") User user, @RequestParam(value = "roles_select", required = false) Long[] roleIds) {
-        Set<Role> roles = new HashSet<>();
-        if (roleIds != null) {
-            for (Long roleId : roleIds) {
-                Role role = roleService.findById(roleId);
-                if (role != null) {
-                    roles.add(role);
-                } else {
-                    log.error("Role not found with id: {}", roleId);
-                }
-            }
-        }
-        user.setRoles(roles);
+    public String create(@ModelAttribute("user") User user,
+                         @RequestParam(value = "roles_select", required = false) Long[] roleIds) {
+        userService.setRolesToUser(user, roleIds);
         userService.addUser(user);
         return "redirect:/admin";
     }
 
     @PostMapping("/update/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam("roles_select") Long[] roleIds) {
-        Set<Role> roles = new HashSet<>();
-        for (Long roleId : roleIds) {
-            Role role = roleService.findById(roleId);
-            if (role != null) {
-                roles.add(role);
-            } else {
-                log.error("Role not found with id: {}", roleId);
-            }
-        }
-        user.setRoles(roles);
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam(value = "roles_select", required = false) Long[] roleIds) {
+        userService.setRolesToUser(user, roleIds);
         userService.editUser(user);
         return "redirect:/admin";
     }
+
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {

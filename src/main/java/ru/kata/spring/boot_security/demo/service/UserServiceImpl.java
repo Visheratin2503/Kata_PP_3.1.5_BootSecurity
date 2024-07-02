@@ -72,14 +72,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void setRolesToUser(User user, Long[] roleIds) {
-        Set<Role> roleList = new HashSet<>();
-        for (Long id : roleIds) {
-            Role role = roleRepository.findById(id).orElse(null);
-            if (role != null) {
-                roleList.add(role);
+        Set<Role> roles = new HashSet<>();
+        if (roleIds != null && roleIds.length > 0) {
+            for (Long roleId : roleIds) {
+                Role role = roleRepository.findById(roleId).orElse(null);
+                if (role != null) {
+                    roles.add(role);
+                } else {
+                    System.out.println("Role not found with id: " + roleId);
+                }
+            }
+        } else {
+            Role defaultRole = roleRepository.findByRole("ROLE_USER");
+            if (defaultRole != null) {
+                roles.add(defaultRole);
             }
         }
-        user.setRoles(roleList);
+        user.setRoles(roles);
     }
 
     @Override
