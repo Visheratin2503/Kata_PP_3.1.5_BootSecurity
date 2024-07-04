@@ -46,13 +46,13 @@ public class PreLoader {
         }
     }
 
-    private void createUserIfNeeded(String name, String lastName, int age, String email, String password, String roleName) {
-        User existingUser = userService.findByEmail(email);
+    private void createUserIfNeeded(String name, String lastName, int age, String username, String password, String roleName) {
+        User existingUser = userService.findByUsername(username);
         if (existingUser == null) {
             User user = new User();
             user.setName(name);
             user.setAge(age);
-            user.setEmail(email);
+            user.setUsername(username);
             user.setLastName(lastName);
             user.setPassword(password);
 
@@ -63,7 +63,7 @@ public class PreLoader {
 
             userService.addUser(user);
         } else {
-            System.out.println("Пользователь '" + email + "' уже существует в базе данных.");
+            System.out.println("Пользователь '" + username + "' уже существует в базе данных.");
         }
     }
 }

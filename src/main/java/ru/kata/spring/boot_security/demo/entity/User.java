@@ -13,25 +13,23 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+@Setter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
-    @Setter
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Setter
     @Getter
     @Column(name = "name")
     @NotEmpty(message = "Name should not be empty!")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
 
-    @Setter
     @Getter
     @Column(name = "last_Name")
     @NotEmpty(message = "Last Name should not be empty!")
@@ -39,19 +37,17 @@ public class User implements UserDetails {
     private String lastName;
 
     @Getter
-    @Setter
     @Min(value = 0, message = "Age should not be less than 0")
     private int age;
 
-    @Column(name = "email")
-    @NotEmpty(message = "Username should not be empty!")
-    private String email;
-
     @Setter
+    @Column(name = "username")
+    @NotEmpty(message = "Email should not be empty!")
+    private String username;
+
     @NotEmpty(message = "Password should not be empty!")
     private String password;
 
-    @Setter
     @Getter
     @ManyToMany(fetch = FetchType.LAZY)
     @NotEmpty(message = "Roles should not be empty!")
@@ -60,25 +56,15 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
-    public User(Long id, String name, String lastName, int age, String email, String password, Set<Role> roles) {
+    public User(Long id, String name, String lastName, int age, String username, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
     public User() {
 
     }
@@ -110,7 +96,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

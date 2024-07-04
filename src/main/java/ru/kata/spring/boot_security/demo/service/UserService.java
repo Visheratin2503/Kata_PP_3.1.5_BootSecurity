@@ -18,7 +18,7 @@ public interface UserService {
 
     void editUser(User user);
 
-    User findByEmail(String email);
+    User findByUsername(String username);
 
     Optional<Role> getRoleById(Long id);
 

@@ -12,23 +12,15 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
-    private final UserRepository userRepository;
 
-    @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
+    @GetMapping(value = "/admin/page")
+    public String getAdminPage() {
+        return "admin";
     }
 
-    @GetMapping()
-    public String userShow(@CurrentSecurityContext(expression = "authentication?.name") String email, Model model) {
-        User currentUser = userRepository.findByEmail(email);
-        model.addAttribute("user", currentUser);
-        model.addAttribute("currentUserRoles", currentUser.getRolesToString());
+    @GetMapping(value = "/user/page")
+    public String getUserPage() {
         return "user";
     }
-
 }
