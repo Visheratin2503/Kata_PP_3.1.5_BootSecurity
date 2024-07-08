@@ -30,6 +30,7 @@ public class RestAdminController {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
     }
+
     @GetMapping("/admin/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         logger.info("Trying to fetch user with id: {}", id);
@@ -48,6 +49,7 @@ public class RestAdminController {
         User user = userService.getUserByName(principal.getName());
         return ResponseEntity.ok().body(user);
     }
+
     @GetMapping("/user/user")
     public ResponseEntity<User> showUserByUsername(Principal principal) {
         User user = userService.getUserByName(principal.getName());
