@@ -28,13 +28,13 @@ public class PreLoader {
         createRolesIfNeeded();
 
         // Проверка и добавление пользователей
-        createUserIfNeeded("Vlad", "Visheratin", 25, "vl.visheratin@gmail.com", "1234", "ROLE_ADMIN");
-        createUserIfNeeded("Elena", "Sidorova", 35, "Elena@mail.ru", "1111", "ROLE_USER");
+        createUserIfNeeded("Vlad", "Visheratin", 25, "vl.visheratin@gmail.com", "1234", "ADMIN");
+        createUserIfNeeded("Elena", "Sidorova", 35, "Elena@mail.ru", "1111", "USER");
     }
 
     private void createRolesIfNeeded() {
-        createRoleIfNotExists("ROLE_USER");
-        createRoleIfNotExists("ROLE_ADMIN");
+        createRoleIfNotExists("USER");
+        createRoleIfNotExists("ADMIN");
     }
 
     private void createRoleIfNotExists(String roleName) {
@@ -47,7 +47,7 @@ public class PreLoader {
     }
 
     private void createUserIfNeeded(String name, String lastName, int age, String username, String password, String roleName) {
-        User existingUser = userService.findByUsername(username);
+        User existingUser = userService.getUserByName(username);
         if (existingUser == null) {
             User user = new User();
             user.setName(name);
@@ -61,7 +61,7 @@ public class PreLoader {
                 user.setRoles(Set.of(role));
             }
 
-            userService.addUser(user);
+            userService.save(user);
         } else {
             System.out.println("Пользователь '" + username + "' уже существует в базе данных.");
         }

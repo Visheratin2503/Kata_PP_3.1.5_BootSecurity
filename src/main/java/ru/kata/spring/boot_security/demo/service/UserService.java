@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    List<User> getUsersList();
+    List<User> getAllUsers();
 
-    User getUser(Long id);
+    User getUserById(Long id);
 
-    void addUser(User user);
+    void save(User user);
 
     void deleteUser(Long id);
 
-    void editUser(User user);
+    void update(User user);
 
-    User findByUsername(String username);
+    User getUserByName(String name);
 
-    Optional<Role> getRoleById(Long id);
+    Role getRoleById(Long id);
 
     List<Role> findAllRoles();
 

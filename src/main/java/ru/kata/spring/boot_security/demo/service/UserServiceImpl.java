@@ -30,20 +30,53 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
     @Override
-    public List<User> getUsersList() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @Override
-    public User getUser(Long id) {
-        return userRepository.getById(id);
-    }
+    //изначальный вариант
+//    @Override
+//    public User getUser(Long id) {
+//        return userRepository.getById(id);
+//    }
+
+
+
+    //1 вариант решения ошибки
+//    @Override
+//    public User getUser(Long id) {
+//        User user = userRepository.findById(id).orElse(null);
+//        System.out.println("Retrieved user: {}" + user);
+//        return user;
+//    }
+
+    //2 вариант решения ошибки
+//    @Override
+//    public User getUser(Long id) {
+//        Optional<User> userOpt = userRepository.findById(id);
+//        if (userOpt.isPresent()) {
+//            User user = userOpt.get();
+//            System.out.println("User found: {}"+ user);
+//            return user;
+//        } else {
+//            System.out.println("User with id {} not found"+ id);
+//            return null;
+//        }
+//    }
 
     @Override
-    public void addUser(User user) {
+    public User getUserById(Long id) {
+        return userRepository.getUserById(id);
+    }
+
+
+
+    //save user
+    @Override
+    public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (user.getRoles().isEmpty()) {
-            Role defaultRole = roleRepository.findByRole("ROLE_USER");
+            Role defaultRole = roleRepository.findRoleByRole("USER");
             user.setRoles(Set.of(defaultRole));
         }
         userRepository.save(user);
@@ -54,51 +87,60 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    //update user
     @Override
-    public void editUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void update(User user) {
+//        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
+//
+//        if (!user.getPassword().equals(existingUser.getPassword())) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        } else {
+//            user.setPassword(existingUser.getPassword());
+//        }
+//        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+//            existingUser.setRoles(user.getRoles());
+//        }
+        userRepository.saveAndFlush(user);
+    }
 
-        if (!user.getPassword().equals(existingUser.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        } else {
-            user.setPassword(existingUser.getPassword());
-        }
-        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
-            existingUser.setRoles(user.getRoles());
-        }
+//    @Override
+//    public void setRolesToUser(User user, Long[] roleIds) {
+//        Set<Role> roles = new HashSet<>();
+//        if (roleIds != null && roleIds.length > 0) {
+//            for (Long roleId : roleIds) {
+//                Role role = roleRepository.findById(roleId).orElse(null);
+//                if (role != null) {
+//                    roles.add(role);
+//                } else {
+//                    System.out.println("Role not found with id: " + roleId);
+//                }
+//            }
+//        } else {
+//            Role defaultRole = roleRepository.findByRole("ROLE_USER");
+//            if (defaultRole != null) {
+//                roles.add(defaultRole);
+//            }
+//        }
+//        user.setRoles(roles);
+//    }
 
-        userRepository.save(existingUser);
+    @Override
+    public void setRolesToUser(User user, Long[] roles) {
+        Set<Role> roleList = new HashSet<>();
+        for (Long id : roles) {
+            roleList.add(roleRepository.findById(id).orElse(null));
+        }
+        user.setRoles(roleList);
     }
 
     @Override
-    public void setRolesToUser(User user, Long[] roleIds) {
-        Set<Role> roles = new HashSet<>();
-        if (roleIds != null && roleIds.length > 0) {
-            for (Long roleId : roleIds) {
-                Role role = roleRepository.findById(roleId).orElse(null);
-                if (role != null) {
-                    roles.add(role);
-                } else {
-                    System.out.println("Role not found with id: " + roleId);
-                }
-            }
-        } else {
-            Role defaultRole = roleRepository.findByRole("ROLE_USER");
-            if (defaultRole != null) {
-                roles.add(defaultRole);
-            }
-        }
-        user.setRoles(roles);
+    public User getUserByName(String name) {
+        return userRepository.getUserByName(name);
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public Optional<Role> getRoleById(Long id) {
-        return roleRepository.findById(id);
+    public Role getRoleById(Long id) {
+        return roleRepository.getById(id); //getOne(id);
     }
 
     @Override

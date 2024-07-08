@@ -40,7 +40,14 @@ function fillModal(id) {
             'Content-Type': 'application/json'
         }
     }).then(res => {
-        res.json().then(user => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+    })
+        .then(user => {
+            console.log("Received user data:", user);
+            // res.json().then(user => {
             document.getElementById('id').value = user.id;
             document.getElementById('editName').value = user.name;
             document.getElementById('editLastname').value = user.lastName;
@@ -54,8 +61,9 @@ function fillModal(id) {
             document.getElementById('delEmail').value = user.username;
             document.getElementById('delPassword').value = user.password;
         })
-    });
-}
+        .catch(error => console.error('Error fetching user:', error));
+    }
+
 
 //------------------SHOW-User--------------------------------
 

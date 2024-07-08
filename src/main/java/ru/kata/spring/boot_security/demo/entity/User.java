@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.entity;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,31 +27,33 @@ public class User implements UserDetails {
 
     @Getter
     @Column(name = "name")
-    @NotEmpty(message = "Name should not be empty!")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @NonNull
+//    @NotEmpty(message = "Name should not be empty!")
+//    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
 
     @Getter
     @Column(name = "last_Name")
-    @NotEmpty(message = "Last Name should not be empty!")
-    @Size(min = 2, max = 30, message = "Last Name should be between 2 and 30 characters")
+    @NonNull
+//    @NotEmpty(message = "Last Name should not be empty!")
+//    @Size(min = 2, max = 30, message = "Last Name should be between 2 and 30 characters")
     private String lastName;
 
     @Getter
-    @Min(value = 0, message = "Age should not be less than 0")
+    @NonNull
     private int age;
 
     @Setter
     @Column(name = "username")
-    @NotEmpty(message = "Email should not be empty!")
     private String username;
 
-    @NotEmpty(message = "Password should not be empty!")
+    //@NotEmpty(message = "Password should not be empty!")
     private String password;
 
     @Getter
     @ManyToMany(fetch = FetchType.LAZY)
-    @NotEmpty(message = "Roles should not be empty!")
+    @NonNull
+//    @NotEmpty(message = "Roles should not be empty!")
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))

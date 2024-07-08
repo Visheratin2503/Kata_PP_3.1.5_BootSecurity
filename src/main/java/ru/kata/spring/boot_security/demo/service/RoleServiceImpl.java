@@ -28,12 +28,14 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
     }
 
+    @Transactional
     @Override
     public Role findById(Long id) {
         return roleRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Role findByName(String roleName) {
-        return roleRepository.findByRole(roleName);
+        return roleRepository.findRoleByRole(roleName);
     }
 }
