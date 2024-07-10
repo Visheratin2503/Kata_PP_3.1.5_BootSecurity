@@ -35,16 +35,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
         return user;
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getEmail(),
-//                user.getPassword(),
-//                mapRolesToAuthorities(user.getRoles())
-//        );
-
     }
-//    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-//                .collect(Collectors.toList());
-//    }
 }
